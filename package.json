@@ -1,39 +1,13 @@
-import express from "express";
-import fetch from "node-fetch";
-
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-// Read environment variables from Render
-const BOT_TOKEN = process.env.BOT_TOKEN;
-const CHAT_ID = process.env.CHAT_ID;
-
-app.get("/", (req, res) => {
-  res.send("OverSmart Chandru Home Telegram API is running 🚀");
-});
-
-app.get("/send", async (req, res) => {
-  try {
-    const msg = req.query.msg || "Hello from ESP32";
-    const encoded = encodeURIComponent(msg);
-
-    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encoded}`;
-    const r = await fetch(url);
-    const data = await r.json();
-
-    if (data.ok) {
-      res.send(`✅ Message sent: ${msg}`);
-    } else {
-      res.status(500).send(`❌ Telegram error: ${JSON.stringify(data)}`);
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("❌ Server error");
+{
+  "name": "chandru_oversmart_home",
+  "version": "1.0.0",
+  "description": "OverSmart Chandru Home Telegram API server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "axios": "^1.7.2"
   }
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
-
+}
